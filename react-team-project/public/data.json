@@ -1,0 +1,43 @@
+{
+  "skills": [
+    {
+      "id": 1,
+      "title": "English 1302",
+      "category": "English",
+      "providerName": "Rose Perez",
+      "providerId": "user_101"
+    },
+    {
+      "id": 2,
+      "title": "Intro to Problem Solving I",
+      "category": "Computer Science",
+      "description": "Learn how to approach problems and create solutions using beginner algorithms and data structures.",
+      "providerName": "Jake Shane",
+      "providerId": "user_102"
+    },
+    {
+      "id": 3,
+      "title": "Art History",
+      "category": "Art",
+      "description": "Get help understanding the history of art and its various movements through the eras.",
+      "providerName": "Mandy George",
+      "providerId": "user_103",
+      "pictureUrl": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=500"
+    }
+  ],
+  "requests": [
+    {
+      "id": 201,
+      "skillId": 1,
+      "requesterName": "Micky Gordon",
+      "status": "Pending"
+    },
+    {
+      "id": 202,
+      "skillId": 2,
+      "requesterName": "Benny Smith",
+      "status": "Confirmed",
+      "message": "Need help studying for midterms."
+    }
+  ]
+}
