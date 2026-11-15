@@ -20,8 +20,9 @@ function logger(req, res, next) {
 
 const skillRouter = require("./routes/skills");
 const requireAuth = require("./middleware/authMiddleware");
+const authRouter = require("./routes/auth");
 
-app.use("/api/skills", skillRouter);
+app.use("/api/auth", authRouter);
 
 app.get("/", (req, res) => {
     res.json({ message: "Server is running" });
