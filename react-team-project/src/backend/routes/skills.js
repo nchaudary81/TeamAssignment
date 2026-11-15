@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../index");
+const requireAuth = require("../middleware/authMiddleware");
 
 // GET: Return all skills
-router.get("/", async (req, res) => {
+router.get("/", requireAuth, async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT

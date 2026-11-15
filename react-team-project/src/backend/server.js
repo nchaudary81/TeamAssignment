@@ -1,29 +1,32 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+    origin: "http://localhost:3000",
 };
 
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(logger);
 
-// Custom log-catcher middleware
+
 function logger(req, res, next) {
-  console.log(new Date().toISOString(), req.method, req.originalUrl);
-  next();
+    console.log(new Date().toISOString(), req.method, req.originalUrl);
+    next();
 }
 
 const skillRouter = require("./routes/skills");
+const requireAuth = require("./middleware/authMiddleware");
 
 app.use("/api/skills", skillRouter);
 
 app.get("/", (req, res) => {
-  res.json({ message: "Server is running" });
+    res.json({ message: "Server is running" });
 });
 
 app.listen(8080, () => {
-  console.log("Server is running on port 8080");
+    console.log("Server is running on port 8080");
 });
