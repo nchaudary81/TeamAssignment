@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const Dashboard = () => {
+const Dashboard = ({ skills }) => {
   return (
     <div>
       <h1>Skill Dashboard</h1>
@@ -9,6 +9,16 @@ const Dashboard = () => {
       <p>Manage your skills and keep track of your learning requests here.</p>
 
       <h2>My Skills</h2>
+
+      {/* Just keep it for now until we add user authentication. */}
+      {skills.map((skill) => (
+        <div key={skill.id}>
+          <h3>{skill.title}</h3>
+          <p>{skill.description}</p>
+          <p>Category: {skill.category}</p>
+        </div>
+      ))}
+
       <p>View and manage the skills you share with other students.</p>
       <button>View My Skills</button>
 
@@ -20,7 +30,7 @@ const Dashboard = () => {
       <button>Share a Skill</button>
       <button>Find a Skill</button>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

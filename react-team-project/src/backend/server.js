@@ -1,7 +1,13 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+};
+
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use(logger);
 
 // Custom log-catcher middleware
@@ -14,6 +20,10 @@ const skillRouter = require("./routes/skills");
 
 app.use("/api/skills", skillRouter);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.get("/", (req, res) => {
+  res.json({ message: "Server is running" });
+});
+
+app.listen(8080, () => {
+  console.log("Server is running on port 8080");
 });
