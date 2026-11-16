@@ -2,6 +2,28 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Backend setup
+
+Configure `DB_USER`, `DB_PASSWORD`, and `JWT_SECRET` in the project-root `.env` file. Create the users table once from the project directory:
+
+```bash
+psql -h localhost -U YOUR_DB_USER -d SkillBridge -f src/backend/migrations/001_create_users.sql
+```
+
+Replace `YOUR_DB_USER` with the PostgreSQL role configured as `DB_USER` in `.env`.
+
+The backend API and React frontend run in separate terminals:
+
+```bash
+node src/backend/server.js
+```
+
+```bash
+npm start
+```
+
+Create an account from the app's Register page before logging in.
+
 ## Available Scripts
 
 In the project directory, you can run:

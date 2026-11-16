@@ -23,6 +23,7 @@ const requireAuth = require("./middleware/authMiddleware");
 const authRouter = require("./routes/auth");
 
 app.use("/api/auth", authRouter);
+app.use("/api/skills", skillRouter);
 
 app.get("/", (req, res) => {
     res.json({ message: "Server is running" });
