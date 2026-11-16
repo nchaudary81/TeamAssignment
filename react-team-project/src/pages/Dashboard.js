@@ -1,6 +1,6 @@
 import React from "react";
 
-const Dashboard = ({ skills }) => {
+const Dashboard = ({ skills, skillsStatus, skillsError }) => {
   return (
     <div>
       <h1>Skill Dashboard</h1>
@@ -11,13 +11,20 @@ const Dashboard = ({ skills }) => {
       <h2>My Skills</h2>
 
       {/* Just keep it for now until we add user authentication. */}
-      {skills.map((skill) => (
-        <div key={skill.id}>
-          <h3>{skill.title}</h3>
-          <p>{skill.description}</p>
-          <p>Category: {skill.category}</p>
-        </div>
-      ))}
+      {skillsStatus === "loading" && <p role="status">Loading skills...</p>}
+      {skillsStatus === "error" && <p role="alert">{skillsError}</p>}
+      {skillsStatus === "idle" && <p>Log in to load skills.</p>}
+      {skillsStatus === "success" && skills.length === 0 && (
+        <p>No skills found yet.</p>
+      )}
+      {skillsStatus === "success" &&
+        skills.map((skill) => (
+          <div key={skill.id}>
+            <h3>{skill.title}</h3>
+            <p>{skill.description}</p>
+            <p>Category: {skill.category}</p>
+          </div>
+        ))}
 
       <p>View and manage the skills you share with other students.</p>
       <button>View My Skills</button>

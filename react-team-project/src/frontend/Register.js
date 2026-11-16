@@ -51,7 +51,7 @@ function Register({ onRegister }) {
       </label>
 
       <label>
-        Password (8-72 bytes)
+        Password
         <input
           type="password"
           value={password}

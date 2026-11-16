@@ -13,27 +13,48 @@ import { useState, useEffect } from "react";
 const App = () => {
   const [token, setToken] = useState(() => sessionStorage.getItem("token"));
   const [skills, setSkills] = useState([]);
-  
+  const [skillsStatus, setSkillsStatus] = useState("idle");
+  const [skillsError, setSkillsError] = useState("");
+
   function handleLogin(newToken) {
     sessionStorage.setItem("token", newToken);
     setToken(newToken);
   }
   useEffect(() => {
-    if (!token) return;
+    if (!token) {
+      setSkills([]);
+      setSkillsStatus("idle");
+      return;
+    }
+
+    let active = true;
 
     async function fetchSkills() {
+      setSkillsStatus("loading");
+      setSkillsError("");
+
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/skills",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setSkills(response.data);
+        const response = await axios.get("http://localhost:8080/api/skills", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (active) {
+          setSkills(response.data);
+          setSkillsStatus("success");
+        }
       } catch (error) {
-        console.error("Error fetching skills:", error);
+        if (active) {
+          setSkillsError(
+            error.response?.data?.message ?? "Could not load skills. Please try again."
+          );
+          setSkillsStatus("error");
+        }
       }
     }
 
     fetchSkills();
+    return () => {
+      active = false;
+    };
   }, [token]);
 
   return (
@@ -43,8 +64,26 @@ const App = () => {
 
         <main>
           <Routes>
-            <Route path="/" element={<Home skills={skills} />} />
-            <Route path="/dashboard" element={<Dashboard skills={skills} />} />
+            <Route
+              path="/"
+              element={
+                <Home
+                  skills={skills}
+                  skillsStatus={skillsStatus}
+                  skillsError={skillsError}
+                />
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <Dashboard
+                  skills={skills}
+                  skillsStatus={skillsStatus}
+                  skillsError={skillsError}
+                />
+              }
+            />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register onRegister={handleLogin} />} />
