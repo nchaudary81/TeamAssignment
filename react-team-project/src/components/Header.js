@@ -1,26 +1,20 @@
 import React from 'react'
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const Header = () => {
-  
-  // eslint-disable-next-line
-  const location = useLocation()
-
   return (
-    <div className='header'>
-      <h1>SkillBridge</h1>
-
-      <nav>
+    <>
+      <header className="header">
+        <h1>SkillBridge</h1>
+      </header>
+      <nav className="nav-links" aria-label="Main navigation">
         <Link to="/login">Login</Link>
-        {" | "}
         <Link to="/register">Register</Link>
-        {" | "}
-        <Link to="/">Home</Link>{" | "}
-        <Link to="/dashboard">Dashboard</Link>{" | "}
+        <Link to="/">Home</Link>
+        <Link to="/dashboard">Dashboard</Link>
         <Link to="/about">About</Link>
       </nav>
-
-    </div>
+    </>
   )
 }
 
