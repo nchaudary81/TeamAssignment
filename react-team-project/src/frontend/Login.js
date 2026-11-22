@@ -1,5 +1,6 @@
 import { useState } from "react";
 // import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import apiClient from "../services/api";
 
 function Login({ onLogin }) {
@@ -7,6 +8,8 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -19,6 +22,7 @@ function Login({ onLogin }) {
         password,
       });
       onLogin(response.data.token);
+      navigate("/dashboard");
     } catch (err) {
       setError(
         err.response?.data?.message ?? "Could not connect to the server.",
@@ -29,10 +33,15 @@ function Login({ onLogin }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+  <div className="auth-container">
+    <form className="auth-form" onSubmit={handleSubmit}>
+      <h2>Welcome Back!</h2>
+      <p>Log in to your SkillBridge account.</p>
+
+      <label className="auth-label">
         Email
         <input
+          className="auth-input"
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
@@ -40,9 +49,10 @@ function Login({ onLogin }) {
         />
       </label>
 
-      <label>
+      <label className="auth-label">
         Password
         <input
+          className="auth-input"
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
@@ -50,13 +60,14 @@ function Login({ onLogin }) {
         />
       </label>
 
-      <button type="submit" disabled={loading}>
+      <button className="auth-button" type="submit" disabled={loading}>
         {loading ? "Logging in..." : "Log in"}
       </button>
 
-      {error && <p role="alert">{error}</p>}
+      {error && <p className="auth-error" role="alert">{error}</p>}
     </form>
-  );
+  </div>
+);
 }
 
 export default Login;
