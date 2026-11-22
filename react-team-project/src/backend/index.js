@@ -1,6 +1,8 @@
 // Connecting database
-require("dotenv").config();
-const Pool = require("pg").Pool;
+import "dotenv/config";
+import pg from "pg";
+
+const { Pool } = pg;
 
 const pool = new Pool({
   user: "postgres",
@@ -14,7 +16,7 @@ pool.connect((err, client, release) => {
   if (err) {
     return console.error("Error acquiring client", err.stack);
   }
-  client.query("SELECT NOW()", (err, result) => {
+  client.query("SELECT NOW()", (err) => {
     release();
     if (err) {
       return console.error("Error executing query", err.stack);
@@ -23,4 +25,4 @@ pool.connect((err, client, release) => {
   });
 });
 
-module.exports = pool;
+export default pool;

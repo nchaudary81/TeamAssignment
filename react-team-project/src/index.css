@@ -1,4 +1,8 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import "tailwindcss"; */
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -8,6 +12,7 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
+
 @layer base {
   *,
   ::after,
@@ -22,24 +27,23 @@
 /* green -> #007F3E */
 /* blue -> #0067C5 */
 
-
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body{
-    background-color: #9EA2A4;
-    color:black;
-    font-family:Georgia, 'Times New Roman', Times, serif;
-    font-size:16px;
-    line-height:1.6em;
-    margin:0;
+body {
+  background-color: #9ea2a4;
+  color: black;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.6em;
+  margin: 0;
 }
 
-.container{
-    width:80%;
-    margin:auto;
-    overflow:hidden;
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
 }
 
 .header {
@@ -47,7 +51,7 @@ body{
   align-items: center;
   min-height: 130px;
   padding: 24px clamp(20px, 8vw, 80px);
-  background-color: #007F3E;
+  background-color: #007f3e;
   border-bottom: 3px solid #003118;
   color: white;
 }
@@ -64,14 +68,14 @@ body{
   justify-content: center;
   gap: 10%;
   padding: 16px 24px;
-  background-color: #0067C5;
+  background-color: #0067c5;
 }
 
-.nav-links a{
-    color:black;
-    text-decoration:none;
-    font-size:16px;
-    font-weight: 500;
+.nav-links a {
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .nav-links a:hover,
