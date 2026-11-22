@@ -20,7 +20,16 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
+  //   origin: function (origin, callback) {
+  //     if (!origin || allowedOrigins.includes(origin)) {
+  //       callback(null, true);
+  //     } else {
+  //       callback(new Error("Blocked by CORS policy: Origin not authorized."));
+  //     }
+  //   },
   origin: function (origin, callback) {
+    console.log("Request origin:", origin);
+
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
