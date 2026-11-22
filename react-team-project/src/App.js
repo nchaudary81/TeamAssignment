@@ -5,7 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import axios from "axios";
+// import axios from "axios";
+import apiClient from "./services/api";
 import Login from "./frontend/Login";
 import Register from "./frontend/Register";
 import { useState, useEffect } from "react";
@@ -34,9 +35,7 @@ const App = () => {
       setSkillsError("");
 
       try {
-        const response = await axios.get("http://localhost:8080/api/skills", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await apiClient.get("/api/skills");
         if (active) {
           setSkills(response.data);
           setSkillsStatus("success");
@@ -44,7 +43,8 @@ const App = () => {
       } catch (error) {
         if (active) {
           setSkillsError(
-            error.response?.data?.message ?? "Could not load skills. Please try again."
+            error.response?.data?.message ??
+              "Could not load skills. Please try again.",
           );
           setSkillsStatus("error");
         }
@@ -86,7 +86,10 @@ const App = () => {
             />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/register" element={<Register onRegister={handleLogin} />} />
+            <Route
+              path="/register"
+              element={<Register onRegister={handleLogin} />}
+            />
           </Routes>
         </main>
 

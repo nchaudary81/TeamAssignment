@@ -12,8 +12,24 @@ import authRouter from "./routes/auth.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://your-team-app.vercel.app",
+  "https://your-team-app.onrender.com",
+];
+
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Blocked by CORS policy: Origin not authorized."));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(express.json());
@@ -24,10 +40,6 @@ function logger(req, res, next) {
   console.log(new Date().toISOString(), req.method, req.originalUrl);
   next();
 }
-
-// const skillRouter = require("./routes/skills");
-// const requireAuth = require("./middleware/authMiddleware");
-// const authRouter = require("./routes/auth");
 
 app.use("/api/auth", authRouter);
 app.use("/api/skills", skillRouter);

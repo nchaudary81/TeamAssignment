@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import apiClient from "../services/api";
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -13,14 +14,14 @@ function Login({ onLogin }) {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
-        { email, password }
-      );
+      const response = await apiClient.post("/api/auth/login", {
+        email,
+        password,
+      });
       onLogin(response.data.token);
     } catch (err) {
       setError(
-        err.response?.data?.message ?? "Could not connect to the server."
+        err.response?.data?.message ?? "Could not connect to the server.",
       );
     } finally {
       setLoading(false);
