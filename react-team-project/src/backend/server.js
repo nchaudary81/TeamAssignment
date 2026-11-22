@@ -15,8 +15,8 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  "https://your-team-app.vercel.app",
-  "https://your-team-app.onrender.com",
+  "https://team-assignment-qcan.vercel.app",
+  "https://skillbridge-499x.onrender.com",
 ];
 
 const corsOptions = {
