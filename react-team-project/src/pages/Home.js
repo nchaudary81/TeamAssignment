@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home = ({ skills, skillsStatus, skillsError }) => {
   return (
@@ -13,7 +14,7 @@ const Home = ({ skills, skillsStatus, skillsError }) => {
 
       {skillsStatus === "loading" && <p role="status">Loading skills...</p>}
       {skillsStatus === "error" && <p role="alert">{skillsError}</p>}
-      {skillsStatus === "idle" && <p>Log in to load skills.</p>}
+      {skillsStatus === "idle" && <p><Link to="/login">Log in</Link> to load skills.</p>}
       {skillsStatus === "success" && skills.length === 0 && (
         <p>No skills found yet.</p>
       )}

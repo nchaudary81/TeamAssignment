@@ -1,6 +1,6 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 /* @import "tailwindcss"; */
 
@@ -13,7 +13,7 @@
   color utility to any element that depends on these defaults.
 */
 
-@layer base {
+/* @layer base {
   *,
   ::after,
   ::before,
@@ -21,7 +21,7 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
-}
+} */
 
 /* silver -> #9EA2A4 */
 /* green -> #007F3E */
@@ -40,10 +40,34 @@ body {
   margin: 0;
 }
 
+.App {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  width: calc(100% - 40px);
+  margin: 32px auto;
+  flex: 1;
+}
+
 .container {
   width: 80%;
   margin: auto;
   overflow: hidden;
+}
+
+.footer {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: #003118;
+  color: white;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
 }
 
 .header {
