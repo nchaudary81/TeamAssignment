@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import apiClient from "../services/api";
 
-const Dashboard = ({ onSkillCreated }) => {
-  const navigate = useNavigate();
+const Dashboard = ({
+  skills,
+  skillsStatus,
+  skillsError,
+  onSkillCreated,
+}) => {
   const [isShareFormOpen, setIsShareFormOpen] = useState(false);
   const [isMySkillsVisible, setIsMySkillsVisible] = useState(false);
+  const [isFindSkillsVisible, setIsFindSkillsVisible] = useState(false);
   const [mySkills, setMySkills] = useState([]);
   const [mySkillsStatus, setMySkillsStatus] = useState("idle");
   const [mySkillsError, setMySkillsError] = useState("");
@@ -157,9 +161,35 @@ const Dashboard = ({ onSkillCreated }) => {
         </form>
       )}
 
-      <button type="button" onClick={() => navigate("/")}>
-        Find a Skill
+      <button
+        type="button"
+        aria-expanded={isFindSkillsVisible}
+        aria-controls="available-skills-list"
+        onClick={() => setIsFindSkillsVisible((isVisible) => !isVisible)}
+      >
+        {isFindSkillsVisible ? "Hide Available Skills" : "Find a Skill"}
       </button>
+      {isFindSkillsVisible && (
+        <section id="available-skills-list" aria-live="polite">
+          <h2>Available Skills</h2>
+          {skillsStatus === "loading" && (
+            <p role="status">Loading skills...</p>
+          )}
+          {skillsStatus === "error" && <p role="alert">{skillsError}</p>}
+          {skillsStatus === "success" && skills.length === 0 && (
+            <p>No skills found yet.</p>
+          )}
+          {skillsStatus === "success" &&
+            skills.map((skill) => (
+              <div key={skill.id}>
+                <h3>{skill.title}</h3>
+                <p>Category: {skill.category || "Not specified"}</p>
+                <p>Provider: {skill.providerName || "You"}</p>
+                <p>{skill.description || "No description provided."}</p>
+              </div>
+            ))}
+        </section>
+      )}
     </div>
   );
 };

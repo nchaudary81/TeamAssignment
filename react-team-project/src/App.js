@@ -105,6 +105,9 @@ const App = () => {
                             element={
                                 token ? (
                                     <Dashboard
+                                        skills={skills}
+                                        skillsStatus={skillsStatus}
+                                        skillsError={skillsError}
                                         onSkillCreated={(skill) => {
                                             setSkills((currentSkills) => [
                                                 skill,
