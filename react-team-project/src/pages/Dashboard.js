@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import apiClient from "../services/api";
 
 const Dashboard = ({ onSkillCreated }) => {
+  const navigate = useNavigate();
   const [isShareFormOpen, setIsShareFormOpen] = useState(false);
   const [isMySkillsVisible, setIsMySkillsVisible] = useState(false);
   const [mySkills, setMySkills] = useState([]);
@@ -155,7 +157,9 @@ const Dashboard = ({ onSkillCreated }) => {
         </form>
       )}
 
-      <button>Find a Skill</button>
+      <button type="button" onClick={() => navigate("/")}>
+        Find a Skill
+      </button>
     </div>
   );
 };
