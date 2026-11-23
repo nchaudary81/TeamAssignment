@@ -1,32 +1,40 @@
-import React from 'react'
+import React from "react";
 
 const About = () => {
   return (
-    <div>
-      <h1>About Our Team</h1>
+    <div className="about-container">
+      <section className="about-intro">
+        <h1>About Our Team</h1>
 
-      <p>
-        We are NKL and we want to create a skills based web application that helps students acknowledge their own skills and learn skills from other fellow students
-      </p>
+        <p>
+          We are Team NKL, and we created SkillBridge, a skills-based web
+          application that helps students recognize their own skills and learn
+          new skills from fellow students.
+        </p>
+      </section>
 
-      <h2>Meet Our Members</h2>
+      <section className="team-section">
+        <h2>Meet Our Members</h2>
 
-      <div>
-        <h3>Kseniya Ramanouskaya</h3>
-        <p>Student and member of Team NKL.</p>
-      </div>
+        <div className="team-members">
+          <div className="team-card">
+            <h3>Kseniya Ramanouskaya</h3>
+            <p>Student and member of Team NKL.</p>
+          </div>
 
-      <div>
-        <h3>Lauren Ford</h3>
-        <p>Student and member of Team NKL.</p>
-      </div>
+          <div className="team-card">
+            <h3>Lauren Ford</h3>
+            <p>Student and member of Team NKL.</p>
+          </div>
 
-      <div>
-        <h3>Naba Chaudary</h3>
-        <p>Student and member of Team NKL.</p>
-      </div>
+          <div className="team-card">
+            <h3>Naba Chaudary</h3>
+            <p>Student and member of Team NKL.</p>
+          </div>
+        </div>
+      </section>
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;
