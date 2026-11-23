@@ -31,6 +31,32 @@ router.get("/", requireAuth, async (req, res) => {
   }
 });
 
+// GET: Return skills shared by the signed-in user
+router.get("/mine", requireAuth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT
+        skills.id,
+        skills.title,
+        skills.description,
+        skills.category,
+        users.full_name AS "providerName"
+       FROM skills
+       JOIN users ON skills.user_id = users.id
+       WHERE skills.user_id = $1
+       ORDER BY skills.id DESC`,
+      [req.user.id],
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});
+
 // POST: Create a new skill
 router.post("/", requireAuth, async (req, res) => {
   try {
