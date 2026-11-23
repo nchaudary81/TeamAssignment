@@ -13,6 +13,17 @@ const Dashboard = ({
   const [mySkills, setMySkills] = useState([]);
   const [mySkillsStatus, setMySkillsStatus] = useState("idle");
   const [mySkillsError, setMySkillsError] = useState("");
+  const [requests, setRequests] = useState([]);
+  const [requestsStatus, setRequestsStatus] = useState("idle");
+  const [requestsError, setRequestsError] = useState("");
+  const [isRequestsVisible, setIsRequestsVisible] = useState(false);
+  const [receivedRequests, setReceivedRequests] = useState([]);
+  const [receivedRequestsStatus, setReceivedRequestsStatus] = useState("idle");
+  const [receivedRequestsError, setReceivedRequestsError] = useState("");
+  const [isReceivedRequestsVisible, setIsReceivedRequestsVisible] =
+    useState(false);
+  const [requestingSkillId, setRequestingSkillId] = useState(null);
+  const [requestNotices, setRequestNotices] = useState({});
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -34,6 +45,38 @@ const Dashboard = ({
         error.response?.data?.message ?? "Could not load your skills.",
       );
       setMySkillsStatus("error");
+    }
+  }
+
+  async function loadMyRequests() {
+    setRequestsStatus("loading");
+    setRequestsError("");
+
+    try {
+      const response = await apiClient.get("/api/requests");
+      setRequests(response.data);
+      setRequestsStatus("success");
+    } catch (error) {
+      setRequestsError(
+        error.response?.data?.message ?? "Could not load your requests.",
+      );
+      setRequestsStatus("error");
+    }
+  }
+
+  async function loadReceivedRequests() {
+    setReceivedRequestsStatus("loading");
+    setReceivedRequestsError("");
+
+    try {
+      const response = await apiClient.get("/api/requests/received");
+      setReceivedRequests(response.data);
+      setReceivedRequestsStatus("success");
+    } catch (error) {
+      setReceivedRequestsError(
+        error.response?.data?.message ?? "Could not load received requests.",
+      );
+      setReceivedRequestsStatus("error");
     }
   }
 
@@ -72,6 +115,39 @@ const Dashboard = ({
       );
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function handleRequestSubmit(skillId) {
+    setRequestNotices((current) => ({ ...current, [skillId]: null }));
+    setRequestingSkillId(skillId);
+
+    try {
+      const response = await apiClient.post("/api/requests", {
+        skillId,
+      });
+      setRequestNotices((current) => ({
+        ...current,
+        [skillId]: {
+          kind: "success",
+          message: response.data.message,
+        },
+      }));
+      if (isRequestsVisible) {
+        await loadMyRequests();
+      }
+    } catch (error) {
+      setRequestNotices((current) => ({
+        ...current,
+        [skillId]: {
+          kind: "error",
+          message:
+            error.response?.data?.message ??
+            "Could not send request. Please try again.",
+        },
+      }));
+    } finally {
+      setRequestingSkillId(null);
     }
   }
 
@@ -114,7 +190,83 @@ const Dashboard = ({
 
       <h2>My Requests</h2>
       <p>Check the status of your requests to learn new skills.</p>
-      <button>View My Requests</button>
+      <button
+        type="button"
+        aria-expanded={isRequestsVisible}
+        aria-controls="my-requests-list"
+        onClick={() => {
+          if (isRequestsVisible) {
+            setIsRequestsVisible(false);
+            return;
+          }
+
+          setIsRequestsVisible(true);
+          loadMyRequests();
+        }}
+      >
+        {isRequestsVisible ? "Hide My Requests" : "View My Requests"}
+      </button>
+      {isRequestsVisible && (
+        <section id="my-requests-list" aria-live="polite">
+          {requestsStatus === "loading" && (
+            <p role="status">Loading your requests...</p>
+          )}
+          {requestsStatus === "error" && <p role="alert">{requestsError}</p>}
+          {requestsStatus === "success" && requests.length === 0 && (
+            <p>You have not requested any skills yet.</p>
+          )}
+          {requestsStatus === "success" &&
+            requests.map((request) => (
+              <div key={request.id}>
+                <h3>{request.skillTitle}</h3>
+                <p>Provider: {request.providerName}</p>
+                <p>Status: {request.status}</p>
+                {request.message && <p>Your message: {request.message}</p>}
+              </div>
+            ))}
+        </section>
+      )}
+      <button
+        type="button"
+        aria-expanded={isReceivedRequestsVisible}
+        aria-controls="received-requests-list"
+        onClick={() => {
+          if (isReceivedRequestsVisible) {
+            setIsReceivedRequestsVisible(false);
+            return;
+          }
+
+          setIsReceivedRequestsVisible(true);
+          loadReceivedRequests();
+        }}
+      >
+        {isReceivedRequestsVisible
+          ? "Hide Requests for My Skills"
+          : "View Requests for My Skills"}
+      </button>
+      {isReceivedRequestsVisible && (
+        <section id="received-requests-list" aria-live="polite">
+          {receivedRequestsStatus === "loading" && (
+            <p role="status">Loading received requests...</p>
+          )}
+          {receivedRequestsStatus === "error" && (
+            <p role="alert">{receivedRequestsError}</p>
+          )}
+          {receivedRequestsStatus === "success" &&
+            receivedRequests.length === 0 && (
+              <p>No one has requested your skills yet.</p>
+            )}
+          {receivedRequestsStatus === "success" &&
+            receivedRequests.map((request) => (
+              <div key={request.id}>
+                <h3>{request.skillTitle}</h3>
+                <p>From: {request.requesterName}</p>
+                <p>Status: {request.status}</p>
+                {request.message && <p>Message: {request.message}</p>}
+              </div>
+            ))}
+        </section>
+      )}
 
       <h2>Quick Actions</h2>
       <button
@@ -186,6 +338,23 @@ const Dashboard = ({
                 <p>Category: {skill.category || "Not specified"}</p>
                 <p>Provider: {skill.providerName || "You"}</p>
                 <p>{skill.description || "No description provided."}</p>
+                {requestNotices[skill.id]?.kind === "success" && (
+                  <p role="status">{requestNotices[skill.id].message}</p>
+                )}
+                {requestNotices[skill.id]?.kind !== "success" && (
+                  <button
+                    type="button"
+                    disabled={requestingSkillId !== null}
+                    onClick={() => handleRequestSubmit(skill.id)}
+                  >
+                    {requestingSkillId === skill.id
+                      ? "Sending..."
+                      : "Request to Learn"}
+                  </button>
+                )}
+                {requestNotices[skill.id]?.kind === "error" && (
+                  <p role="alert">{requestNotices[skill.id].message}</p>
+                )}
               </div>
             ))}
         </section>

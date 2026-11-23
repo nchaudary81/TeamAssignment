@@ -9,6 +9,7 @@ import express from "express";
 import cors from "cors";
 import skillRouter from "./routes/skills.js";
 import authRouter from "./routes/auth.js";
+import requestRouter from "./routes/requests.js";
 
 const app = express();
 
@@ -52,6 +53,7 @@ function logger(req, res, next) {
 
 app.use("/api/auth", authRouter);
 app.use("/api/skills", skillRouter);
+app.use("/api/requests", requestRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Server is running" });
