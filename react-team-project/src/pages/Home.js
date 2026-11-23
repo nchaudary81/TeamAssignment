@@ -3,31 +3,38 @@ import { Link } from "react-router-dom";
 
 const Home = ({ skills, skillsStatus, skillsError }) => {
   return (
-    <div>
-      <h1>Welcome to SkillBridge</h1>
-      <p>
-        SkillBridge helps college students share their skills and learn from
-        others.
-      </p>
+    <div className="home-container">
+      <section className="home-intro">
+        <h1>Welcome to SkillBridge</h1>
+        <p>
+          SkillBridge helps college students share their skills and learn from
+          others.
+        </p>
+      </section>
 
-      <h2>Available Skills</h2>
+      <section className="skills-section">
+        <h2>Available Skills</h2>
 
       {skillsStatus === "loading" && <p role="status">Loading skills...</p>}
       {skillsStatus === "error" && <p role="alert">{skillsError}</p>}
-      {skillsStatus === "idle" && <p><Link to="/login">Log in</Link> to load skills.</p>}
+      {skillsStatus === "idle" && <p>Log in to load skills.</p>}
       {skillsStatus === "success" && skills.length === 0 && (
         <p>No skills found yet.</p>
       )}
 
-      {skillsStatus === "success" &&
-        skills.map((skill) => (
-          <div key={skill.id}>
-            <h3>{skill.title}</h3>
-            <p>Category: {skill.category}</p>
-            <p>Provider: {skill.providerName}</p>
-            <p>{skill.description}</p>
+        {skillsStatus === "success" && skills.length > 0 && (
+          <div className="skills-grid">
+            {skills.map((skill) => (
+              <div className="skill-card" key={skill.id}>
+                <h3>{skill.title}</h3>
+                <p className="skill-category">Category: {skill.category}</p>
+                <p>Provider: {skill.providerName}</p>
+                <p>{skill.description}</p>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
+      </section>
     </div>
   );
 };

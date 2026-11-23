@@ -152,12 +152,15 @@ const Dashboard = ({
   }
 
   return (
-    <div>
+  <div className="dashboard-container">
+
+    <div className="dashboard-intro">
       <h1>Skill Dashboard</h1>
 
       <p>Welcome to your SkillBridge dashboard!</p>
       <p>Manage your skills and keep track of your learning requests here.</p>
-
+    </div>
+    
       <h2>My Skills</h2>
       <p>View and manage the skills you share with other students.</p>
       <button
