@@ -1,8 +1,3 @@
-// const express = require("express");
-// const router = express.Router();
-// const pool = require("../index");
-// const requireAuth = require("../middleware/authMiddleware");
-
 import express from "express";
 import pool from "../index.js";
 import requireAuth from "../middleware/authMiddleware.js";
@@ -10,7 +5,8 @@ import requireAuth from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // GET: Return all skills
-router.get("/", requireAuth, async (req, res) => {
+// router.get("/", requireAuth, async (req, res) => { // Removed requireAuth to allow public access to skills
+router.get("/", async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT 
