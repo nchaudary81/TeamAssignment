@@ -83,7 +83,7 @@ body {
   background-color: #0067c5;
 } */
 
-.nav-links {
+/* .nav-links {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,22 +101,22 @@ body {
 }
 
 /* for main navigation links */
-.nav-center {
+/* .nav-center {
   display: flex;
   align-items: center;
   gap: 40px;
-}
+} */
 
 /* for login and register links */
-.nav-right {
+/* .nav-right {
   display: flex;
   align-items: center;
   gap: 12px;
   position: absolute;
   right: 30px;
-}
+} */
 
-.nav-center a {
+/* .nav-center a {
   padding: 8px 12px;
   border-radius: 20px;
 }
@@ -144,14 +144,74 @@ body {
 }
 
 .register-link:hover {
-  background-color: #e6f2ff;
-}
+  background-color: #e6f2ff; 
+} */
 
 /* .nav-links a:hover,
 .nav-links a:focus-visible {
   color: #98cdffde;
   text-decoration: underline;
 } */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 30px;
+  background-color: #0067c5;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin: 0 auto;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.nav-center a {
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.nav-center a:hover {
+  background-color: #004d91;
+}
+
+.login-link {
+  padding: 9px 16px;
+  border: 1px solid white;
+  border-radius: 20px;
+}
+
+.login-link:hover {
+  background-color: #004d91;
+}
+
+.nav-right .register-link {
+  padding: 9px 18px;
+  background-color: white;
+  color: #0067c5;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.nav-right .register-link:hover {
+  background-color: #e6f2ff;
+}
 
 /* Login and Registration Pages */
 
